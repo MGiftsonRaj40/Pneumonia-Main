@@ -7,8 +7,9 @@ from werkzeug.utils import secure_filename
 from tensorflow.keras.models import Model 
 from tensorflow.keras.layers import Input, Flatten, Dense, Dropout
 from tensorflow.keras.applications.vgg19 import VGG19
+from tensorflow.keras.applications import MobileNetV2
 
-base_model = VGG19(include_top=False, input_shape=(128,128,3))
+base_model = MobileNetV2(include_top=False, input_shape=(128,128,3))
 x = base_model.output
 flat=Flatten()(x)
 class_1 = Dense(4608, activation='relu')(flat)
