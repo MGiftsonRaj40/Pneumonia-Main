@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Detection</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+    }
+
+    .container {
+        flex: 1;
+    }
+
+    .footercontain {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        text-align: left;
+    }
+
+    footer h4 {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .Logo {
+        color: #000000;
+    }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline id="bgVideo"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -1;">
+    <source src="{{ url_for('static', filename='background2.mp4') }}" type="video/mp4">
+    </video>
+    
+    <script>
+        const video = document.getElementById('bgVideo');
+        video.playbackRate = 1;
+    </script>
+
+    <header>
+        <h1 class="Logo" style="color: #ffffff;">Pneumonia<span style="color:#40c4ff;"> Detection</span></h1>
+        
+        <nav id="navbar">
+            <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            <a href="{{ url_for('test') }}" class="nav-link">Detection</a>
+            <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+        </nav>
+
+        <button class="nav-button" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('show');
+        }
+    </script>
+        
+    <div class="container" id="Home">
+        <div class="content firstcontent">
+            <!-- Video Background -->
+            <video autoplay muted loop playsinline class="background-video">
+                <source src="{{ url_for('static', filename='doc-xray-checkup.mp4') }}" type="video/mp4">
+            </video>
+    
+            <!-- Text Content -->
+            <div class="text-overlay">
+                <h1>Smart Pneumonia Detection</h1><br>
+                <p>
+                    <span style="color:#e0f7fa;">Pneumonia is a life-threatening infection</span> that affects the lungs, leading to inflammation in the air sacs. 
+                    It can be caused by bacteria, viruses, or fungi and poses a major health risk, especially to 
+                    <span style="color:#00e5ff;">infants</span>, 
+                    <span style="color:#00e5ff;">the elderly</span>, and 
+                    <span style="color:#00e5ff;">immunocompromised individuals</span>. 
+                    <span style="color:#76ff03;">Early and accurate diagnosis</span> is crucial for effective treatment.
+                    <br><br>
+                    <span style="color:#64ffda;">Pneumonia detection is a vital part of respiratory healthcare.</span> 
+                    <span style="color:#76ff03;">Early diagnosis can significantly improve patient outcomes.</span> 
+                    With the help of 
+                    <span style="color:#00bfa5;">machine learning techniques</span>, particularly the 
+                    <span style="color:#40c4ff;">VGG19 deep learning model</span>, pneumonia can now be detected more accurately through chest X-ray images. 
+                    This approach enhances the diagnostic process, supporting healthcare professionals in delivering 
+                    <span style="color:#64ffda;">faster and more reliable care</span>.
+                </p><br><br>                
+                <a class="book-button" href="{{ url_for('contact') }}">Book Now !</a>
+            </div>
+        </div>
+    </div><br><br><br>
+
+    <div class="info-section causes slide-left">
+        <h2>Causes of Pneumonia</h2>
+        <ul>
+          <li>Bacterial pneumonia: Caused by bacteria such as Streptococcus pneumoniae.</li>
+          <li>Viral pneumonia: Caused by viruses such as influenza and RSV.</li>
+          <li>Fungal pneumonia: Caused by fungi such as Pneumocystis jirovecii.</li>
+        </ul>
+      </div>
+    
+      <div class="info-section symptoms slide-right">
+        <h2>Symptoms of Pneumonia</h2>
+        <ul>
+          <li>Cough: A persistent and often productive cough.</li>
+          <li>Fever: A high temperature, often accompanied by chills.</li>
+          <li>Shortness of breath: Difficulty breathing or feeling winded even when sitting still.</li>
+          <li>Chest pain: Pain or discomfort that worsens with deep breathing or coughing.</li>
+        </ul>
+      </div>
+    
+      <div class="info-section risk slide-left">
+        <h2>Risk Factors</h2>
+        <ul>
+          <li>Age: Older adults and young children are more susceptible.</li>
+          <li>Weakened immune system: Conditions like HIV/AIDS or immunosuppressive medications.</li>
+          <li>Underlying conditions: Heart disease, diabetes, or chronic lung disease.</li>
+        </ul>
+      </div>
+    
+      <div class="info-section diagnosis slide-right">
+        <h2>Diagnosis and Treatment</h2>
+        <ul>
+          <li>Chest X-ray: A common diagnostic tool for pneumonia.</li>
+          <li>AI Detection: Artificial intelligence can analyze medical images.</li>
+          <li>Antiviral meds: Used for viral pneumonia.</li>
+          <li>Supportive care: Includes rest, fluids, and oxygen if needed.</li>
+        </ul>
+      </div>
+    
+      <div class="info-section prevention slide-left">
+        <h2>Prevention</h2>
+        <ul>
+          <li>Vaccination: Prevents certain pneumonia types.</li>
+          <li>Hygiene: Wash hands regularly.</li>
+          <li>Healthy lifestyle: Balanced diet, exercise, and no smoking.</li>
+        </ul>
+      </div>
+    
+      <script>
+        const sections = document.querySelectorAll('.info-section');
+    
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            } else {
+              entry.target.classList.remove('visible'); // Remove to retrigger on scroll
+            }
+          });
+        }, {
+          threshold: 0.1
+        });
+    
+        sections.forEach(section => observer.observe(section));
+      </script>
+
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank">
+        <i class="fa fa-whatsapp"></i>
+    </a>
+
+</body>
+<footer>
+    <center>
+    <div class="footercontain" style="column-gap: 20px;">
+        <div class="QLinks">
+            <center><h4>Quick Links</h4></center>
+            <center>
+                    <a href="{{ url_for('index') }}"><i class="fa fa-home" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('about') }}"><i class="fa fa-users" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('test') }}"><i class="fa fa-stethoscope" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('contact') }}"><i class="fa fa-phone" style="margin-right: 10px;"></i></a><br>
+            </center>
+        </div>
+        <div class="mailPhone">
+            <center><h4>Contact Us</h4></center>
+            <center>
+                <i class="fa fa-envelope" style="margin-right: 10px;"></i><a style="margin-right: 20px; font-size: 14px;" href="mailto:example@example.com">example@example.com</a>
+                <i class="fa fa-phone" style="margin-right: 10px;"></i><a href="tel:+1234567890" style="font-size: 14px;">+1234567890</a>
+            </center>
+        </div>
+        <div class="socialmedia">
+            <center><h4 style="margin-bottom: 0%;">Social Media</h4></center>
+            <ul style="list-style-type: none;  display: flex; gap: 20px; font-size: 24px; justify-content: center;">
+                <li><a href="https://facebook.com" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://instagram.com" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="https://wa.me/1234567890" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    </center>
+</footer>
+</html>

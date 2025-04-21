@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Detection</title>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .green { color: green; }
+        .red { color: red; }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .seperate {
+            display: flex; justify-content: center; gap: 30px;
+        }
+
+        .custom-upload-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745, #80e09a);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            user-select: none;
+        }
+        
+        .custom-upload-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #218838, #6cd788);
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-styled {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #00c9ff, #a692fe);
+        }
+
+        .predict-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 201, 255, 0.3);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ff322b, #ff414b);
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(255, 75, 43, 0.3);
+        }
+
+      .tips-card {
+        background-color: #ffffff33;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-top: 15px;
+        font-family: 'Segoe UI', sans-serif;
+      }
+    
+      .tips-card h4 {
+        margin-bottom: 10px;
+        color: #007bff;
+        text-align: center;
+      }
+    
+      .tips-card ul {
+        padding-left: 20px;
+        margin-bottom: 15px;
+      }
+    
+      .tips-card ul li {
+        margin-bottom: 6px;
+      }
+
+        @media screen and (max-width:450px) {
+            .seperate {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    {% extends "import.html" %} 
+    {% block content %}
+
+    <center>
+    <br><br><br><br>
+    <h2>PNEUMONIA DETECTION Using Deep Learning</h2><br>
+    
+    <div class="seperate" id="responsiveDiv" style="display:flex; flex-direction:row; gap:40px; flex-wrap:wrap; align-items: center;">
+        <div>
+            <form id="upload-file" method="post" enctype="multipart/form-data"
+                  style="border: dashed 2px #34dbcd; padding: 30px; border-radius: 20px; background-color: #00000000; text-align: center; width: 300px; min-height: 280px; height: fit-content; position: relative;"
+                  ondrop="handleDrop(event)"
+                  ondragover="handleDragOver(event)"
+                  ondragleave="handleDragLeave(event)">
+                  
+                  <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" style="display: none;">
+                  <label for="imageUpload" class="custom-upload-btn">📁 Upload Image</label> 
+                <p style="margin: 0%;">or Drag & Drop</p>
+    
+                <div id="imageContainer" style="display: none; margin-top: 10px;">
+                    <img id="imagePreview" src="#" style="width: 100%; height: 280px;" />
+                    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 15px;">
+                        <button type="button" id="btn-predict" class="btn-styled predict-btn">🔍 Predict!</button>
+                        <button type="button" onclick="removeImage()" class="btn-styled delete-btn">🗑️ Delete</button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="loader" style="display:none;"></div>
+        </div>
+    
+            <script>
+            const dropArea = document.getElementById("upload-file");
+            const fileInput = document.getElementById("imageUpload");
+            const imagePreview = document.getElementById("imagePreview");
+            const imageContainer = document.getElementById("imageContainer");
+            
+            fileInput.addEventListener("change", function () {
+                showImagePreview(this.files[0]);
+            });
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                dropArea.style.borderColor = "#0d6efd";
+                dropArea.style.backgroundColor = "#00000000";
+            }
+            
+            function handleDragLeave(e) {
+                e.preventDefault();
+                dropArea.style.borderColor = "#34dbcd";
+                dropArea.style.backgroundColor = "#00000000";
+            }
+            
+            function handleDrop(e) {
+                e.preventDefault();
+                dropArea.style.borderColor = "#34dbcd";
+                dropArea.style.backgroundColor = "#00000000";
+            
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith("image/")) {
+                fileInput.files = e.dataTransfer.files;
+                showImagePreview(file);
+                }
+            }
+            
+            function showImagePreview(file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                imageContainer.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function removeImage() {
+                fileInput.value = "";
+                imagePreview.src = "#";
+                imageContainer.style.display = "none";
+            }
+            </script>
+    
+    <div style="max-width: 500px; margin-top: 20px;">
+        <h3 id="result" style="text-align: center; font-weight: bold;"></h3>
+    
+        <div id="normal-tips" class="tips-card" style="display: none;">
+            <h4>✅ Healthy Routine Tips</h4>
+            <h5 style="color: #28a745;">Do's</h5>
+            <ul>
+                <li>Maintain a balanced diet</li>
+                <li>Exercise regularly</li>
+                <li>Get regular checkups</li>
+            </ul>
+            <h5 style="color: #dc3545;">Don'ts</h5>
+            <ul>
+                <li>Avoid junk food</li>
+                <li>Don't skip sleep</li>
+                <li>Limit screen time</li>
+            </ul>
+        </div>
+    
+        <div id="abnormal-tips" class="tips-card" style="display: none;">
+            <h4>⚠️ Medical Attention Needed</h4>
+            <h5 style="color: #28a745;">Do's</h5>
+            <ul>
+                <li>Consult a doctor immediately</li>
+                <li>Take prescribed medication</li>
+                <li>Rest and monitor condition</li>
+            </ul>
+            <h5 style="color: #dc3545;">Don'ts</h5>
+            <ul>
+                <li>Don't self-medicate</li>
+                <li>Avoid stressful activities</li>
+                <li>Don't ignore symptoms</li>
+            </ul>
+        </div>
+        <br>
+    </div>
+</center>
+
+    <script>
+        document.getElementById("imageUpload").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("imagePreview").src = e.target.result;
+                    const section = document.getElementById("imageContainer");
+                    section.style.opacity = "1";
+                    section.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById("btn-predict").addEventListener("click", function () {
+            const form = document.getElementById("upload-file");
+            const formData = new FormData(form);
+
+            document.querySelector(".loader").style.display = "block";
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(result => {
+                document.querySelector(".loader").style.display = "none";
+
+                const resultElement = document.getElementById("result");
+                resultElement.textContent = "Result: " + result;
+
+                if (result.toLowerCase().includes("normal")) {
+                    resultElement.style.color = "green";
+                    document.getElementById("normal-tips").style.display = "block";
+                    document.getElementById("abnormal-tips").style.display = "none";
+                } else if (result.toLowerCase().includes("pneumonia")) {
+                    resultElement.style.color = "red";
+                    document.getElementById("normal-tips").style.display = "none";
+                    document.getElementById("abnormal-tips").style.display = "block";
+                }
+            })
+            .catch(err => {
+                document.querySelector(".loader").style.display = "none";
+                alert("Error occurred during prediction.");
+                console.error(err);
+            });
+        });
+
+        function removeImage() {
+            if (confirm("Are you sure you want to delete the image?")) {
+                const section = document.getElementById("imageContainer");
+                section.style.opacity = "0";
+                setTimeout(() => {
+                    section.style.display = "none";
+                    document.getElementById("imageUpload").value = "";
+                    document.getElementById("imagePreview").src = "#";
+                    document.getElementById("result").textContent = "";
+                    document.getElementById("normal-tips").style.display = "none";
+                    document.getElementById("abnormal-tips").style.display = "none";
+                }, 500);
+            }
+        }
+
+        function adjustFlexDirection() {
+            const div = document.getElementById("responsiveDiv");
+            if (window.innerWidth <= 768) {
+                div.style.flexDirection = "column";
+            } else {
+                div.style.flexDirection = "row";
+            }
+        }
+
+        window.addEventListener("resize", adjustFlexDirection);
+        window.addEventListener("load", adjustFlexDirection);
+    </script>
+    {% endblock %}
+</body>
+</html>

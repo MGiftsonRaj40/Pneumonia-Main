@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pneumonia Detection</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <h1 class="Logo" style="color: #ffffff;">Pneumonia<span style="color:#40c4ff;"> Detection</span></h1>
+        
+        <nav id="navbar">
+            <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            <a href="{{ url_for('test') }}" class="nav-link">Detection</a>
+            <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+        </nav>
+
+        <button class="nav-button" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('show');
+        }
+    </script>
+
+<video autoplay muted loop playsinline id="bgVideo"
+style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -5;">
+    <source src="{{ url_for('static', filename='background2.mp4') }}" type="video/mp4">
+</video>
+
+<script>
+    const video = document.getElementById('bgVideo');
+    video.playbackRate = 1;
+</script>
+
+<div class="container" id="About">
+    <div class="content content2">
+        <h1>About Us</h1>
+        <div class="ai-info-box">
+            <div class="ai-text">
+              <p>
+                Revolutionizing Pneumonia Detection with AI.<br>
+                Our team is dedicated to developing innovative solutions for pneumonia detection and classification using deep learning. 
+                We believe that accurate and timely diagnosis is crucial for effective treatment and improved patient outcomes.
+              </p>
+              <a class="book-button" style="width: fit-content; margin-top: auto;" href="{{ url_for('contact') }}">Book Now !</a>
+            </div>
+          </div>          
+        <img src="{{ url_for('static', filename='img/lung2.png') }}" alt="" class="phone-lung">
+    </div>
+    <div class="images secondlung">
+        <img src="{{ url_for('static', filename='img/lung2.png') }}" alt="">
+    </div>
+</div>
+
+<div class="info-section slide-left">
+    <h2>Our Mission</h2>
+    <ul>
+      <li>Improve patient outcomes: By developing accurate and reliable pneumonia detection systems.</li>
+      <li>Support healthcare professionals: By providing cutting-edge technology that enhances diagnosis and treatment.</li>
+      <li>Advance medical research: By contributing to the development of new methods and techniques for pneumonia detection.</li>
+    </ul>
+  </div>
+
+  <div class="info-section slide-right">
+    <h2>Our Team</h2>
+    <ul>
+      <li>Experienced professionals: Our team consists of experts in AI, medicine, and healthcare.</li>
+      <li>Passionate about innovation: We're driven by a passion for innovation and a commitment to improving healthcare.</li>
+    </ul>
+  </div>
+
+  <div class="info-section slide-left">
+    <h2>Our Technology</h2>
+    <ul>
+      <li>Deep learning algorithms: We utilize state-of-the-art deep learning algorithms for pneumonia detection and classification.</li>
+      <li>Medical image analysis: Our system analyzes medical images, such as X-rays, to detect pneumonia.</li>
+    </ul>
+  </div>
+<br>
+<div style="max-width: 90vw; margin: auto; font-family: 'Segoe UI', sans-serif;">
+  <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">🩺 Nearby Specialists & Hospitals</h2>
+
+  <div class="hospital-scroll-container">
+    <div class="hospital-card">
+      <strong class="hospital-name">1. Dr. G. Prabhakaran</strong>
+      <span class="hospital-address">No.220, Bussy Street, Puducherry, 605001</span>
+      <span class="hospital-contact">94433 25201</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">2. Dr. Arif Chest Clinic</strong>
+      <span class="hospital-address">118, Bussy St, MG Road Area, Puducherry, 605001</span>
+      <span class="hospital-contact">0413 222 4934</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">3. Dr. Vasudevaiah Clinic</strong>
+      <span class="hospital-address">Ashok Nagar, Lawspet, Puducherry, 605008</span>
+      <span class="hospital-contact">94869 71785</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">4. Dr. Pajanivel R</strong>
+      <span class="hospital-address">15, 1st Cross, Reddiyarpalayam, Puducherry, 605010</span>
+      <span class="hospital-contact">93457 91419</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">5. Indira Gandhi Govt. Hospital</strong>
+      <span class="hospital-address">Victor Simonel St, White Town, Puducherry, 605001</span>
+      <span class="hospital-contact">0413 233 7070</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">6. JIPMER Hospital</strong>
+      <span class="hospital-address">Jipmer Campus Rd, Puducherry, 605006</span>
+      <span class="hospital-contact">0413 229 6562</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">7. Be Well Hospitals</strong>
+      <span class="hospital-address">East Coast Rd, Kottupalayam, Puducherry, 605008</span>
+      <span class="hospital-contact">73732 02111</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">8. Pondicherry Institute of Medical Sciences</strong>
+      <span class="hospital-address">Kalapet, Puducherry, 605014</span>
+      <span class="hospital-contact">0413 265 1111</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">9. Mahatma Gandhi Medical College</strong>
+      <span class="hospital-address">ECR, Pillayarkuppam, Puducherry, 607402</span>
+      <span class="hospital-contact">0413 261 5449</span>
+    </div>
+
+    <div class="hospital-card">
+      <strong class="hospital-name">10. A.G. Padmavati's Hospital</strong>
+      <span class="hospital-address">Villanur Main Rd, Arumparthapuram, Puducherry, 605110</span>
+      <span class="hospital-contact">0413 229 5500</span>
+    </div>
+  </div>
+  <script>
+    const isMobile = window.innerWidth <= 450;
+  
+    if (!isMobile) {
+      // Observer for .info-section
+      const infoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          } else {
+            entry.target.classList.remove('visible');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+  
+      document.querySelectorAll('.info-section').forEach(section => {
+        infoObserver.observe(section);
+      });
+  
+      // Observer for .hospital-card
+      const hospitalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          } else {
+            entry.target.classList.remove('show');
+          }
+        });
+      }, {
+        threshold: 0.2
+      });
+  
+      document.querySelectorAll('.hospital-card').forEach(card => {
+        hospitalObserver.observe(card);
+      });
+    } else {
+      // On small devices, show all elements immediately
+      document.querySelectorAll('.info-section').forEach(section => {
+        section.classList.add('visible');
+      });
+  
+      document.querySelectorAll('.hospital-card').forEach(card => {
+        card.classList.add('show');
+      });
+    }
+  </script>  
+ 
+</div>
+
+<a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank">
+    <i class="fa fa-whatsapp"></i>
+</a>
+</body>
+<footer>
+    <center>
+    <div class="footercontain" style="column-gap: 20px;">
+        <div class="QLinks">
+            <center><h4>Quick Links</h4></center>
+            <center>
+                    <a href="{{ url_for('index') }}"><i class="fa fa-home" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('about') }}"><i class="fa fa-users" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('test') }}"><i class="fa fa-stethoscope" style="margin-right: 10px;"></i></a>
+                    <a href="{{ url_for('contact') }}"><i class="fa fa-phone" style="margin-right: 10px;"></i></a><br>
+            </center>
+        </div>
+        <div class="mailPhone">
+            <center><h4>Contact Us</h4></center>
+            <center>
+                <i class="fa fa-envelope" style="margin-right: 10px;"></i><a style="margin-right: 20px; font-size: 14px;" href="mailto:example@example.com">example@example.com</a>
+                <i class="fa fa-phone" style="margin-right: 10px;"></i><a href="tel:+1234567890" style="font-size: 14px;">+1234567890</a>
+            </center>
+        </div>
+        <div class="socialmedia">
+            <center><h4 style="margin-bottom: 0%;">Social Media</h4></center>
+            <ul style="list-style-type: none;  display: flex; gap: 20px; font-size: 24px; justify-content: center;">
+                <li><a href="https://facebook.com" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="https://instagram.com" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="https://wa.me/1234567890" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    </center>
+</footer>
+
+</html>

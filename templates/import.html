@@ -1,0 +1,199 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Advance Project : PNEUMONIA DETECTION Using Deep Learning</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+    <script src="{{ url_for('static', filename='js/newjs.js') }}" type="text/javascript"></script>
+    <style>
+        html {
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            background-color: #0d1117;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0,255,255,0.1);
+        }
+
+        .Logo {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: #00e5ff;
+            text-decoration: none;
+            font-weight: 400;
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 8px 10px;
+            font-size: 17px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: #00e5ff;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #76ff03;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #00e5ff;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                background-color: #0d1117;
+                flex-direction: column;
+                width: 100%;
+                display: none;
+                padding: 20px;
+                border-top: 1px solid #222;
+            }
+
+            nav.show {
+                display: flex;
+            }
+
+            .nav-button {
+                display: block;
+            }
+        }
+
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            padding: 20px;
+            text-align: center;
+        }
+        
+        footer h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body style="height: 100vh;">
+    <video autoplay muted loop playsinline id="bgVideo"
+    style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: -1;">
+    <source src="{{ url_for('static', filename='background2.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <script>
+        const video = document.getElementById('bgVideo');
+        video.playbackRate = 1;
+    </script>
+   <header>
+        <h1 class="Logo" style="color: #ffffff;">Pneumonia<span style="color:#40c4ff;"> Detection</span></h1>
+        
+        <nav id="navbar" style="display: flex; gap: 0px;">
+            <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+            <a href="{{ url_for('about') }}" class="nav-link">About</a>
+            <a href="{{ url_for('test') }}" class="nav-link">Detection</a>
+            <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+        </nav>
+
+        <button class="nav-button" onclick="toggleMenu()">
+            <i class="fa fa-bars"></i>
+        </button>
+    </header>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('show');
+        }
+    </script>
+    
+    <a href="https://wa.me/1234567890" class="whatsapp-float" target="_blank">
+        <i class="fa fa-whatsapp"></i>
+    </a>
+
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <center>
+        <div class="footercontain" style="column-gap: 20px;">
+            <div class="QLinks">
+                <center><h4>Quick Links</h4></center>
+                <center>
+                        <a href="{{ url_for('index') }}"><i class="fa fa-home" style="margin-right: 10px;"></i></a>
+                        <a href="{{ url_for('about') }}"><i class="fa fa-users" style="margin-right: 10px;"></i></a>
+                        <a href="{{ url_for('test') }}"><i class="fa fa-stethoscope" style="margin-right: 10px;"></i></a>
+                        <a href="{{ url_for('contact') }}"><i class="fa fa-phone" style="margin-right: 10px;"></i></a><br>
+                </center>
+            </div>
+            <div class="mailPhone">
+                <center><h4>Contact Us</h4></center>
+                <center>
+                    <i class="fa fa-envelope" style="margin-right: 10px;"></i><a style="margin-right: 20px; font-size: 14px;" href="mailto:example@example.com">example@example.com</a>
+                    <i class="fa fa-phone" style="margin-right: 10px;"></i><a href="tel:+1234567890" style="font-size: 14px;">+1234567890</a>
+                </center>
+            </div>
+            <div class="socialmedia">
+                <center><h4 style="margin-bottom: 0%;">Social Media</h4></center>
+                <ul style="list-style-type: none;  display: flex; gap: 20px; font-size: 24px; justify-content: center;">
+                    <li><a href="https://facebook.com" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="https://instagram.com" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="https://wa.me/1234567890" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        </center>
+    </footer>
+</body>
+</html>
